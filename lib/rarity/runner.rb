@@ -1,8 +1,8 @@
-class Spike::Runner
+class Rarity::Runner
   def initialize(options)
     @directory = options[:directory]
-    @tracker = Spike::Tracker.new
-    @optimiser = Spike::Optimiser.new(@tracker, {:png_o_level => options[:pnglevel]})
+    @tracker = Rarity::Tracker.new
+    @optimiser = Rarity::Optimiser.new(@tracker, {:png_o_level => options[:pnglevel]})
   end
   def run
     recursively_optimise(@directory)
@@ -58,14 +58,14 @@ class Spike::Runner
     end
     if depth == 0
       puts "\n\nDone optimising everything!"
-      puts "I started with a total size of #{Spike::to_human total_before}"
-      puts "I finished with a total size of #{Spike::to_human total_after}, a reduction of #{Spike::to_human (total_before-total_after).abs}"
+      puts "I started with a total size of #{Rarity::to_human total_before}"
+      puts "I finished with a total size of #{Rarity::to_human total_after}, a reduction of #{Rarity::to_human (total_before-total_after).abs}"
 
       puts"\nType breakdowns:"
       total_before_types.each_pair do |k,v|
         a = total_after_types[k]
         t =  total_time_types[k]
-        puts "#{k.to_s.upcase}: #{Spike::to_human v} before, #{Spike::to_human a} after, reduction of #{Spike::to_human (v-a).abs} or #{Spike::to_human (((v-a).abs)/t.abs)} per second saved"
+        puts "#{k.to_s.upcase}: #{Rarity::to_human v} before, #{Rarity::to_human a} after, reduction of #{Rarity::to_human (v-a).abs} or #{Rarity::to_human (((v-a).abs)/t.abs)} per second saved"
       end
     end
     return {:before => total_before, :after => total_after, :before_types => total_before_types, :after_types => total_after_types, :time_types => total_time_types}

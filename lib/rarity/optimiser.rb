@@ -1,4 +1,4 @@
-class Spike::Optimiser
+class Rarity::Optimiser
   def initialize(tracker, options)
     @tracker = tracker
     @options = options
@@ -14,7 +14,7 @@ class Spike::Optimiser
     if @tracker.is_done?(path, @options)
       puts "Skipping image at #{path}, already done"
     else
-      puts "Optimising image at #{path}, start filesize #{Spike::to_human start_size}"
+      puts "Optimising image at #{path}, start filesize #{Rarity::to_human start_size}"
       # let's figure out what we've got
       ext = File.extname(path).downcase
       type = :unknown

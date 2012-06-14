@@ -1,6 +1,6 @@
-require "spike/version"
+require "rarity/version"
 
-module Spike
+module Rarity
   def self.to_human(number)
     units = %w{B KB MB GB TB}
     if number > 0
@@ -12,6 +12,6 @@ module Spike
     end
   end
 end
-require "spike/tracker"
-require "spike/optimiser"
-require "spike/runner"
+require "rarity/tracker"
+require "rarity/optimiser"
+require "rarity/runner"

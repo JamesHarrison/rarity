@@ -2,17 +2,17 @@
 require 'rubygems'
 require 'trollop'
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
-require 'spike'
+require 'rarity'
 
 SUB_COMMANDS = %w(optim tracker)
 global_opts = Trollop::options do
-  version "Spike #{Spike::VERSION} (c) James Harrison"
+  version "Rarity #{Rarity::VERSION} (c) James Harrison"
   banner <<-EOS
-Spike recursively walks a directory and optimises all the images contained therein.
+Rarity recursively walks a directory and optimises all the images contained therein.
 
 Usage:
-       spike optim -h
-       spike tracker -h
+       rarity optim -h
+       rarity tracker -h
 
 Global options:
 EOS
@@ -37,14 +37,14 @@ cmd_opts = case cmd
 #puts "Subcommand options: #{cmd_opts.inspect}"
 
 if cmd == "optim"
-  r = Spike::Runner.new(cmd_opts)
+  r = Rarity::Runner.new(cmd_opts)
   r.run
 elsif cmd == "tracker"
   if cmd_opts[:reset]
-    t = Spike::Tracker.new
+    t = Rarity::Tracker.new
     t.reset
   elsif cmd_opts[:import]
-    t = Spike::Tracker.new
+    t = Rarity::Tracker.new
     t.import_from_old_format
   else
     puts "I'm afraid you'll have to provide an option."

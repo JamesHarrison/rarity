@@ -8,7 +8,7 @@ This is a tool built for a friend to recursively optimise a directory of images,
 
 Add this line to your application's Gemfile:
 
-    gem 'spike'
+    gem 'rarity'
 
 And then execute:
 
@@ -16,21 +16,21 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install spike
+    $ gem install rarity
 
 ## Usage
 
 Basic usage:
 
-    spike optim -d some/path
+    rarity optim -d some/path
 
 Spike will then optimise everything under that directory.
 
 You can find more help with:
 
-    spike -h
-    spike optim -h
-    spike tracker -h
+    rarity -h
+    rarity optim -h
+    rarity tracker -h
 
 ## Contributing
 

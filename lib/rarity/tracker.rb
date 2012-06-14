@@ -1,5 +1,5 @@
 require 'sequel'
-class Spike::Tracker
+class Rarity::Tracker
 
   def initialize
     @db_path = File.expand_path("~/.spike.sqlite")
