@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  gem.name          = "spike"
+  gem.name          = "rarity"
   gem.require_paths = ["lib"]
   gem.version       = Rarity::VERSION
   gem.add_dependency("sqlite3", ">= 1.3.6")
