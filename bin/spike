@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'trollop'
+$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+require 'spike'
+
+SUB_COMMANDS = %w(optim tracker)
+global_opts = Trollop::options do
+  version "Spike #{Spike::VERSION} (c) James Harrison"
+  banner <<-EOS
+Spike recursively walks a directory and optimises all the images contained therein.
+
+Usage:
+       spike optim -h
+       spike tracker -h
+
+Global options:
+EOS
+  stop_on SUB_COMMANDS
+end
+
+cmd = ARGV.shift # get the subcommand
+cmd_opts = case cmd
+  when "optim"
+    Trollop::options do
+      opt :pnglevel, "The argument to -o to use for pngcrush", :default => 3
+      opt :directory, "The top level of the directory tree to optimise", :type => String
+    end
+  when "tracker"  # parse copy options
+    Trollop::options do
+      opt :reset, "Reset the tracker database"
+      opt :import, "Run an import from an old flat-file DB"
+    end
+  else
+    Trollop::die "unknown subcommand #{cmd.inspect}"
+  end
+#puts "Subcommand options: #{cmd_opts.inspect}"
+
+if cmd == "optim"
+  r = Spike::Runner.new(cmd_opts)
+  r.run
+elsif cmd == "tracker"
+  if cmd_opts[:reset]
+    t = Spike::Tracker.new
+    t.reset
+  elsif cmd_opts[:import]
+    t = Spike::Tracker.new
+    t.import_from_old_format
+  else
+    puts "I'm afraid you'll have to provide an option."
+  end
+end
