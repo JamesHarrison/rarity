@@ -1,8 +1,18 @@
-# Spike
+# Rarity - a recursive image optimiser
 
 If you understand why you need this there's something wrong with you or you have very strange needs.
 
 This is a tool built for a friend to recursively optimise a directory of images, keeping track of progress to support partial runs and update runs, using optipng, jpegoptim and gifsicle.
+
+## Dependencies
+
+Rarity makes use of:
+
+* optipng
+* jpegoptim
+* gifsicle
+
+You will need to install these prior to running rarity.
 
 ## Installation
 
