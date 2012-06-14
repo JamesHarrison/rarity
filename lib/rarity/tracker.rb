@@ -2,7 +2,7 @@ require 'sequel'
 class Rarity::Tracker
 
   def initialize
-    @db_path = File.expand_path("~/.spike.sqlite")
+    @db_path = File.expand_path("~/.rarity.sqlite")
     @first_run = !File.exists?(@db_path)
     @db = Sequel.sqlite(@db_path)
     if @first_run
@@ -10,8 +10,13 @@ class Rarity::Tracker
         primary_key :id
         String :path
         Integer :png_o_level
+        Integer :before_bytes
+        Integer :after_bytes
+        String :filetype
+        Float :time_taken
       end
     end
+    puts "Tracker initialised with a total of #{@db[:images].count} records"
   end
   def import_from_old_format
     @path = File.expand_path("~/.optimdone.dat")
@@ -22,13 +27,13 @@ class Rarity::Tracker
     end
     puts "Imported #{@done.size} entries that we have already optimised from the old land, you can now delete ~/.optimdone.dat"
   end
-  def mark_done(path, options)
+  def mark_done(path, options, results)
     cleanpath = path.gsub("\n","").gsub("\r","").chomp
     if !is_done?(path, options)
       if @db[:images][:path=>cleanpath]
-        @db[:images][:path=>cleanpath] = {:png_o_level => options[:png_o_level]}
+        @db[:images][:path=>cleanpath] = {:png_o_level => options[:png_o_level], :after_bytes=>results[:after], :time_taken=>(results[:time]+ @db[:images][:path=>cleanpath].time_taken)}
       else
-        @db[:images].insert(:path=>cleanpath, :png_o_level=>options[:png_o_level])
+        @db[:images].insert(:path=>cleanpath, :png_o_level=>options[:png_o_level], :before_bytes=>results[:before], :after_bytes=>results[:after], :filetype=>results[:filetype].to_s, :time_taken=>results[:time])
       end
     end
   end

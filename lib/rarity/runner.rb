@@ -1,9 +1,11 @@
 class Rarity::Runner
+  # Initialises a new runner
   def initialize(options)
     @directory = options[:directory]
     @tracker = Rarity::Tracker.new
     @optimiser = Rarity::Optimiser.new(@tracker, {:png_o_level => options[:pnglevel]})
   end
+  # Runs optimisations recursively.
   def run
     recursively_optimise(@directory)
   end

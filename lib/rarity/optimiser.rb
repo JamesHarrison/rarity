@@ -21,7 +21,7 @@ class Rarity::Optimiser
       if ext == ".png"
         `#{png_cmd} "#{path}"`
         type = :png
-        @tracker.mark_done(path, @options)
+        @tracker.mark_done(path, @options, {:before=>start_size, :after=>File.size(path), :filetype=>type, :time=>(Time.now-start)})
       elsif ext == ".gif"
         type = :gif
         # ooh, okay, so if we're a gif, are we animated?
@@ -32,7 +32,7 @@ class Rarity::Optimiser
           if (fc.split(":")[1].to_i rescue 1) > 0
             # We have more than one frame! We're animated or strange. gifsicle.
             `#{gif_cmd} "#{path}"`
-            @tracker.mark_done(path, @options)
+            @tracker.mark_done(path, @options, {:before=>start_size, :after=>File.size(path), :filetype=>type, :time=>(Time.now-start)})
           else
             # We're single frame, PNG probably does better
             opo = `#{png_cmd} "#{path}"`
@@ -42,12 +42,12 @@ class Rarity::Optimiser
               File.delete(path)
               # Changed format, so update path
               path = pngpath
-              @tracker.mark_done(path, @options)
+              @tracker.mark_done(path, @options, {:before=>start_size, :after=>File.size(path), :filetype=>type, :time=>(Time.now-start)})
             else
               # Clean up the PNG we tried and gifsicle it.
               File.delete(path.gsub(File.extname(path),".png"))
               `#{gif_cmd} "#{path}"`
-              @tracker.mark_done(path, @options)
+              @tracker.mark_done(path, @options, {:before=>start_size, :after=>File.size(path), :filetype=>type, :time=>(Time.now-start)})
             end
           end
         else
@@ -59,18 +59,18 @@ class Rarity::Optimiser
             File.delete(path)
             # Changed format, so update path
             path = pngpath
-            @tracker.mark_done(path, @options)
+            @tracker.mark_done(path, @options, {:before=>start_size, :after=>File.size(path), :filetype=>type, :time=>(Time.now-start)})
           else
             # Clean up the PNG we tried and gifsicle it.
             File.delete(path.gsub(File.extname(path),".png"))
             `#{gif_cmd} "#{path}"`
-            @tracker.mark_done(path, @options)
+            @tracker.mark_done(path, @options, {:before=>start_size, :after=>File.size(path), :filetype=>type, :time=>(Time.now-start)})
           end
         end
       elsif ext == ".jpg" or ext == ".jpeg"
         type = :jpg
         `#{jpg_cmd} "#{path}"`
-        @tracker.mark_done(path, @options)
+        @tracker.mark_done(path, @options, {:before=>start_size, :after=>File.size(path), :filetype=>type, :time=>(Time.now-start)})
       else
         puts "Skipped file, not a recognised file type"
       end
